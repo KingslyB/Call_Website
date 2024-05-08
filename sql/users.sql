@@ -1,5 +1,4 @@
 -- Author: Kingsly Bude
-
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS users_id_seq;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
@@ -24,8 +23,8 @@ VALUES(
     crypt('123', gen_salt('bf')),
     'John',
     'Doe',
-    '2016-06-22 19:10:25',
-    '2016-06-22 19:10:26',
+    '2014-06-22 19:10:25',
+    '2014-06-22 19:10:26',
     9,
     'a',
     TRUE
@@ -35,10 +34,10 @@ INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastA
 VALUES(
     'TestOne@gmail.com',
     crypt('password', gen_salt('bf')),
-    'ExampleOne',
+    'EampleOne',
     'SalespersonOne',
-    '2016-06-22 19:10:25',
-    '2016-06-22 19:10:26',
+    '2015-06-22 19:10:25',
+    '2015-06-22 19:10:26',
     32,
     's',
     TRUE
@@ -48,10 +47,10 @@ INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastA
 VALUES(
     'TestTwo@gmail.com',
     crypt('password', gen_salt('bf')),
-    'ExampleTwo',
+    'EampleTwo',
     'SalespersonTwo',
-    '2016-06-22 19:10:25',
-    '2016-06-22 19:10:26',
+    '2000-06-22 19:10:25',
+    '2000-06-22 19:10:26',
     32,
     's',
     FALSE
@@ -59,12 +58,12 @@ VALUES(
 
 INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastAccess, phoneExt, type,isActive)
 VALUES(
-    'kb@dcmail.ca',
+    'kbadmin@rogers.com',
     crypt('password', gen_salt('bf')),
     'Kingsly',
     'Bude',
-    '2016-06-22 19:10:25',
-    '2016-06-22 19:10:26',
+    '1999-06-22 19:10:25',
+    '1999-06-22 19:10:26',
     1,
     'a',
     TRUE

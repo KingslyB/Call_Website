@@ -1,21 +1,10 @@
 <?php
-    /**
-     * Author: Kingsly Bude
-     * Description: Dashboard
-     */
-    $title = "Dashboard Page";
+    $title = "Dashboard";
     include "./includes/header.php";
 
-    if(!isset($_SESSION['user_id'])){
+    if(!isset($_SESSION['id'])){
         header("Location: sign-in.php");
     }
-    if (isset($_SESSION['login_banner']) && $_SESSION['login_banner'] == true){
-        //TODO: Get rid of echo
-        echo('<p>You last logged in on '.$_SESSION['user_lastaccess'].'</p>');
-        $_SESSION['login_banner'] = false;
-    }
-
-    display_redirect_message();
 ?>    
 <h1 class="h2">Dashboard</h1>
 <div class="btn-toolbar mb-2 mb-md-0">
@@ -29,6 +18,10 @@
     </button>
 </div>
 </div>
+
+<?php
+displayTable(allClientData());
+?>
 
 <h2>Section title</h2>
 <div class="table-responsive">

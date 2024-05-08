@@ -2,21 +2,14 @@
 <html lang="en">
   <head>
     <?php
-    /**
-     * Author: Kingsly Bude
-     * Description: Header for almost all pages
-     */
         require("./includes/constants.php");
-        require("./includes/forms.php");
+        //require("./includes/forms.php");
         require("./includes/functions.php");
         require("./includes/db.php");
         session_start();
         ob_start();
         date_default_timezone_set('UTC');
-        $name = "Kingsly Bude";
-        $date = date("Y-m-d");
-        $description = "";
-        $file_name = "";
+
     ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,11 +36,11 @@
  
     
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="index.php">Private Website</a>
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="index.php">Company Website</a>
         <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <?php
-                    if(isset($_SESSION['user_id'])){
+                    if(isset($_SESSION['id'])){
                         echo('<a class="nav-link" href="sign-out.php">Sign out</a>');
                     }
                     else{
@@ -65,7 +58,7 @@
             <ul class="nav flex-column">
                 <li class="nav-item">
                     <?php
-                        if(isset($_SESSION['user_id'])){
+                        if(isset($_SESSION['id'])){
                             echo(' <a class="nav-link active" href="dashboard.php">');
                         }
                         else{
@@ -77,7 +70,7 @@
                 </a>
                 </li>
                 <?php
-                    if(isset($_SESSION['user_id'])){
+                    if(isset($_SESSION['id'])){
                         echo('<li class="nav-item">
                             <a class="nav-link" href="client.php">
                                 <span data-feather="file"></span>
@@ -86,7 +79,7 @@
                         </li>');
                     }
 
-                    if(isset($_SESSION['user_id']) && $_SESSION['user_type'] == 'a'){
+                    if(isset($_SESSION['id'])){
                         echo('<li class="nav-item">
                             <a class="nav-link" href="salespeople.php">
                                 <span data-feather="file"></span>
@@ -95,7 +88,7 @@
                         </li>');
                     }
 
-                    if(isset($_SESSION['user_id'])){
+                    if(isset($_SESSION['id'])){
                         echo('<li class="nav-item">
                             <a class="nav-link" href="calls.php">
                                 <span data-feather="file"></span>

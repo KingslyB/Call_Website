@@ -2,7 +2,8 @@
 *Start of CSS Provided by Durham College
 */
 
-  body {
+
+body {
     font-size: .875rem;
   }
   
@@ -164,6 +165,7 @@ a:hover {
   background-color: rgb(245, 245, 245);
   border-radius: 5px;
 }
+
 /**
 *End of CSS Provided by Durham College
 */
@@ -173,7 +175,7 @@ a:hover {
   width: fit-content;
   border-color: red;
   color: red;
-  margin: 0 auto;
+  margin: 0 1rem;
 
 }
 

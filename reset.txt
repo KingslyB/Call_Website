@@ -1,6 +1,0 @@
-To: jdoe@dcmail.ca
-
-                Subject: Account Reset
-                This email is being sent because you request an account reset at 2023-12-10 05:28:48 UTC.
-                If you did not make this request please disregard this email.
-

@@ -1,12 +1,8 @@
 <?php
-/**
-     * Author: Kingsly Bude
-     * Description: Sign-out.
-     */
-$title = "Sign-Out Page";
+$title = "Sign-Out";
 include "./includes/header.php";
 
-if(isset($_SESSION['user_id'])){
+if(isset($_SESSION['id'])){
     endSession();
 }
 else{

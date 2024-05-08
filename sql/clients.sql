@@ -1,5 +1,4 @@
 -- Author: Kingsly Bude
-
 DROP TABLE IF EXISTS clients;
 
 CREATE TABLE clients(
