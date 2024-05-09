@@ -19,6 +19,10 @@
 </div>
 </div>
 
+<h2>
+    <a href="reset-email.php">Reset Email</a>
+</h2>
+
 <?php
 displayTable(allClientData());
 ?>

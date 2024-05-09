@@ -46,6 +46,24 @@ function endSession(){
     session_reset();
 }
 
+function validateNewEmail($newEmailAddress, $confirmEmail, $userID) :bool
+{
+    $_SESSION["errorList"] = array();
+    if(strlen($newEmailAddress) < 6 || strlen($newEmailAddress) > 100){
+        array_push($_SESSION["errorList"], "New Email length must be between 6 and 100 characters long");
+    }
+
+    if(strcmp($newEmailAddress, $confirmEmail) != 0){
+        array_push($_SESSION["errorList"], "Confirmation Email must match New Email");
+    }
+
+    if(count($_SESSION["errorList"]) == 0){
+        changeEmailAddress($newEmailAddress, $userID);
+        return true;
+    }
+    return false;
+}
+
 function attemptRegistration($email, $password, $confirmPassword, $firstName, $lastName): bool{
     $_SESSION["errorList"] = array();
 

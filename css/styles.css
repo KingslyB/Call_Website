@@ -103,7 +103,7 @@ body {
 a,
 a:focus,
 a:hover {
-  color: #fff;
+  color: #20222d;
 }
 
 /* Custom default button */
@@ -169,6 +169,13 @@ a:hover {
 /**
 *End of CSS Provided by Durham College
 */
+
+ul#nav-item-list{
+}
+
+ul#nav-item-list li a{
+  display: inline;
+}
 
 .error-box{
   display: inline-block;

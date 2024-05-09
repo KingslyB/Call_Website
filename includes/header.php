@@ -16,12 +16,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
-    <!--
-        Name: <?php echo $name. "\n" ?>
-        Date: <?php echo $date. "\n" ?>
-        Description: <?php echo $description ?>
-        File Name: <?php echo $file_name?>
-    -->
 
     <title><?php echo $title ?></title>
 
@@ -37,7 +31,7 @@
     
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="index.php">Company Website</a>
-        <ul class="navbar-nav px-3">
+        <ul id="nav-item-list" class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
             <?php
                     if(isset($_SESSION['id'])){
@@ -139,7 +133,7 @@
 
                     if(isset($_SESSION['user_id'])){
                         echo('<li class="nav-item">
-                            <a class="nav-link" href="reset.php">
+                            <a class="nav-link" href="reset-email.php">
                                 <span data-feather="file"></span>
                                 Account Reset
                             </a>

@@ -1,13 +1,14 @@
 <?php
 
-    // pg_prepare(db_connect(), "add_new_user", 
-    //     'INSERT INTO users(email, password)
-    //     VALUES($1, crypt($2, gen_salt(\'bf\')))'
-    // );
-
     pg_prepare(db_connect(), "add_new_user", 
         'INSERT INTO users(emailaddress, password, firstname, lastname, enrolldate, lastaccess, phoneext, type, isactive)
         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)'
+    );
+
+    pg_prepare(db_connect(), "change_email",
+    'UPDATE users 
+    SET emailaddress = $1
+    WHERE id = $2'
     );
 
     pg_prepare(db_connect(), "login_query", 
@@ -29,6 +30,10 @@
 
     
 
+
+    function changeEmailAddress($newEmailAddress, $userID){
+        return pg_execute(db_connect(), "change_email", array($newEmailAddress, $userID));
+    }
 
     function loginAuthenticate($email, $plaintextPassword){
         $results = pg_execute(db_connect(), "login_query", [$email]);
@@ -52,6 +57,7 @@
                 true
             ]);
         return true;
+
 
     }
 
