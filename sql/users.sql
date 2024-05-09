@@ -2,14 +2,14 @@
 DROP TABLE IF EXISTS users;
 DROP SEQUENCE IF EXISTS users_id_seq;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 CREATE SEQUENCE users_id_seq START 1;
+
 CREATE TABLE users(
     id INT PRIMARY KEY DEFAULT nextval('users_id_seq'),
-    emailAddress VARCHAR(255) UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    firstName VARCHAR(128),
-    lastName VARCHAR(128),
+    emailAddress VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    firstName VARCHAR(40),
+    lastName VARCHAR(40),
     enrollDate TIMESTAMP,
     lastAccess TIMESTAMP,
     phoneExt INT,
@@ -20,7 +20,7 @@ CREATE TABLE users(
 INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastAccess, phoneExt, type, isActive)
 VALUES(
     'jdoe@dcmail.ca',
-    crypt('123', gen_salt('bf')),
+    crypt('password', gen_salt('bf')),
     'John',
     'Doe',
     '2014-06-22 19:10:25',

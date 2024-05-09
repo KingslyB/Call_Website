@@ -33,7 +33,6 @@ function addSessionData($data){
             return false;
         }
     }
-    
 
     foreach ($data as $key => $value) {
         $_SESSION[$key] = $value;
@@ -47,7 +46,7 @@ function endSession(){
     session_reset();
 }
 
-function attemptRegistration($email, $password, $confirmPassword): bool{
+function attemptRegistration($email, $password, $confirmPassword, $firstName, $lastName): bool{
     $_SESSION["errorList"] = array();
 
     if(strlen($email) < 6 || strlen($email) > 100){
@@ -61,10 +60,20 @@ function attemptRegistration($email, $password, $confirmPassword): bool{
     if(strcmp($password, $confirmPassword) != 0){
         array_push($_SESSION["errorList"], "The confirmation password does not match");
     }
+
+    if(strlen($firstName) < 2 || strlen($firstName) > 100){
+        array_push($_SESSION["errorList"], "First Name must be at least 2 characters long and at most 100
+         characters long");
+    }
+
+    if(strlen($lastName) < 2 || strlen($lastName) > 100){
+        array_push($_SESSION["errorList"], "Last Name must be at least 2 characters long and at most 100
+         characters long");
+    }
     
 
     if (count($_SESSION["errorList"]) == 0){
-        registerNewUser($email, $password);
+        registerNewUser($email, $password, $firstName, $lastName);
         return true;
     }
 

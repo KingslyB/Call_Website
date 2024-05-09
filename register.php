@@ -7,10 +7,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = trim($_POST["registration-email"]);
     $password = trim($_POST["registration-password"]);
     $confirmPassword = trim($_POST["registration-confirm"]);
-    
+    $firstName = trim($_POST["registration-first-name"]);
+    $lastName = trim($_POST["registration-last-name"]);
 
-    if(attemptRegistration($email, $password, $confirmPassword)){
-        echo("SUCCESSS");
+    if(attemptRegistration($email, $password, $confirmPassword, $firstName, $lastName)){
+        header("Location: index.php");
     }
     else{
     }
@@ -18,17 +19,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-<div class="error-box visible-border">
+
     <?php
     if (isset($_SESSION["errorList"])){
-        echo('<ul>');
+
+        echo('<div class="error-box visible-border"> <ul>');
         foreach($_SESSION["errorList"] as $error){
             echo('<li>'.$error.'</li>');
         }
-        echo('</ul>');
+        echo('</ul></div>');
     }
     ?>
-</div>
+
 
 
 <form method="post">
@@ -36,6 +38,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <input type="text" name="registration-email" placeholder="Email">
     <input type="password" name="registration-password" placeholder="Password">
     <input type="password" name="registration-confirm" placeholder="Confirm Password">
+    <input type="text" name="registration-first-name" placeholder="First Name">
+    <input type="text" name="registration-last-name" placeholder="Last Name">
     <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Register</button>
 </form>
 

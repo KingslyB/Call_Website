@@ -6,20 +6,20 @@
     // );
 
     pg_prepare(db_connect(), "add_new_user", 
-        'INSERT INTO users(email, password)
-        VALUES($1, $2)'
+        'INSERT INTO users(emailaddress, password, firstname, lastname, enrolldate, lastaccess, phoneext, type, isactive)
+        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)'
     );
 
     pg_prepare(db_connect(), "login_query", 
         'SELECT password
         FROM users
-        WHERE email=$1'
+        WHERE emailaddress=$1'
     );
 
     pg_prepare(db_connect(), "get_session_data",
-        'SELECT id, email
+        'SELECT id, emailaddress, firstname, lastname, enrolldate, lastaccess, phoneext, type, isactive
         FROM users
-        WHERE email=$1'
+        WHERE emailaddress=$1'
     );
 
     pg_prepare(db_connect(), "all_client_data",
@@ -37,8 +37,20 @@
         return password_verify($plaintextPassword, $results['password']);
     }
 
-    function registerNewUser($email, $plaintextPassword){
-        $results = pg_execute(db_connect(), "add_new_user", [$email, password_hash($plaintextPassword, PASSWORD_BCRYPT)]);
+    function registerNewUser($email, $plaintextPassword, $firstname, $lastname): bool
+    {
+        $results = pg_execute(db_connect(), "add_new_user",
+            [
+                $email,
+                password_hash($plaintextPassword, PASSWORD_BCRYPT),
+                $firstname,
+                $lastname,
+                date("Y-m-d H:i:s"),
+                date("Y-m-d H:i:s"),
+                0,
+                's',
+                true
+            ]);
         return true;
 
     }

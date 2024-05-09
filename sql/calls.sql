@@ -1,5 +1,7 @@
 -- Author: Kingsly Bude
 
+--CURRENTLY NOT USED
+
 DROP TABLE IF EXISTS calls;
 DROP SEQUENCE IF EXISTS calls_id_seq;
 
