@@ -1,5 +1,6 @@
 <?php
 
+
 function db_connect(){
     $CONNECTION = pg_connect("host=".DB_HOST.
         " port=" .DB_PORT.
