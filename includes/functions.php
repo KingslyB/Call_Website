@@ -1,4 +1,5 @@
 <?php
+
 function db_connect(){
     $CONNECTION = pg_connect("host=".DB_HOST.
         " port=" .DB_PORT.
@@ -17,6 +18,30 @@ function attemptLogin($emailAddress, $password){
     return false;
 }
 
+function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userID){
+    $_SESSION["errorList"] = array();
+
+    if(strcmp($newPassword, $confirmPassword) != 0){
+        array_push($_SESSION["errorList"], "Passwords do not match");
+    }
+
+    if(strlen($newPassword) < 6 || strlen($newPassword) > 70){
+        array_push($_SESSION["errorList"], "New password length must be between 6 and 70 characters long");
+    }
+
+    if(count($_SESSION["errorList"]) == 0){
+        if(!verifyPassword($oldPassword, $userID)){
+            array_push($_SESSION["errorList"], "An error occurred while trying to change the password");
+        }
+    }
+
+    if(count($_SESSION["errorList"]) == 0){
+        changePassword($newPassword, $userID);
+        return true;
+    }
+
+    return false;
+}
 
 /**
  * Sets data from an associative array into the current session

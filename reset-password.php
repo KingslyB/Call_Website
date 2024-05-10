@@ -8,7 +8,7 @@ if(!isset($_SESSION["id"])){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $oldPassword = trim($_POST["oldPassword"]);
+    $oldPassword = trim($_POST["old-password"]);
     $newPassword = trim($_POST["new-password"]);
     $confirmPassword = trim($_POST["confirmation-password"]);
 
@@ -31,9 +31,9 @@ if (isset($_SESSION["errorList"])){
 
 <form method="post">
     <h1 class="h3 mb-3 font-weight-normal">Password Change</h1>
-    Old Password: <input type="password" name="old-password" placeholder="Old Password">" disabled>
+    Old Password: <input type="password" name="old-password" placeholder="Old Password">
     New Password: <input type="password" name="new-password" placeholder="New Password">
-    Confirmation Password: <input type="password" name="confirm-password" placeholder="New Password">
+    Confirmation Password: <input type="password" name="confirmation-password" placeholder="New Password">
     <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Apply</button>
 </form>
 

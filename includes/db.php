@@ -11,10 +11,16 @@
     WHERE id = $2'
     );
 
-    pg_prepare(db_connect(), "login_query", 
+    pg_prepare(db_connect(), "query_password_by_email",
         'SELECT password
         FROM users
         WHERE emailaddress=$1'
+    );
+
+    pg_prepare(db_connect(), "query_password_by_id",
+        'SELECT password
+            FROM users
+            WHERE id=$1'
     );
 
     pg_prepare(db_connect(), "get_session_data",
@@ -28,6 +34,12 @@
     FROM clients'
     );
 
+    pg_prepare(db_connect(), "change_password",
+    'UPDATE users
+    SET password = $1
+    WHERE id = $2'
+    );
+
     
 
 
@@ -36,10 +48,19 @@
     }
 
     function loginAuthenticate($email, $plaintextPassword){
-        $results = pg_execute(db_connect(), "login_query", [$email]);
+        $results = pg_execute(db_connect(), "query_password_by_email", [$email]);
         $results = pg_fetch_assoc($results);
         
         return password_verify($plaintextPassword, $results['password']);
+    }
+
+    function verifyPassword($plaintextPassword, $userID){
+        $results = pg_fetch_assoc(pg_execute(db_connect(), "query_password_by_id", [$userID]));
+        return password_verify($plaintextPassword, $results['password']);
+    }
+
+    function changePassword($newPassword, $userID){
+        return pg_execute(db_connect(), "change_password", [password_hash($newPassword, PASSWORD_BCRYPT), $userID]);
     }
 
     function registerNewUser($email, $plaintextPassword, $firstname, $lastname): bool
