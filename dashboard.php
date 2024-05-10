@@ -22,6 +22,9 @@
 <h2>
     <a href="reset-email.php">Reset Email</a>
 </h2>
+<h2>
+    <a href="reset-password.php">Send Mail</a>
+</h2>
 
 <?php
 displayTable(allClientData());
