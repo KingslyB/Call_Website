@@ -133,7 +133,7 @@
 
                     if(isset($_SESSION['user_id'])){
                         echo('<li class="nav-item">
-                            <a class="nav-link" href="reset-email.php">
+                            <a class="nav-link" href="change-email.php">
                                 <span data-feather="file"></span>
                                 Account Reset
                             </a>

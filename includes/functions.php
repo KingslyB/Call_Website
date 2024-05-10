@@ -158,6 +158,21 @@ function displayTableData($columnHead, $columnValue){
             break;
     }
 }
+
+function mailPasswordReset($userID, $emailAddress)
+{
+    //TODO: Need to get SMTP to work or find an alternative
+//    print_r(
+//        mail(
+//            $emailAddress,
+//            "Password Reset",
+//            wordwrap("Dead User", 70),
+//            array("from" => "NEED_EMAIL@gmail.com")
+//        )
+//    );
+
+
+}
 ?>
 
 

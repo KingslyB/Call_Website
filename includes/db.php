@@ -5,19 +5,25 @@
         VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)'
     );
 
-    pg_prepare(db_connect(), "change_email",
-    'UPDATE users 
-    SET emailaddress = $1
-    WHERE id = $2'
+    pg_prepare(db_connect(), "find_id_by_email",
+    'SELECT id 
+        FROM users 
+        WHERE emailaddress=$1'
     );
 
-    pg_prepare(db_connect(), "query_password_by_email",
+    pg_prepare(db_connect(), "update_user_email",
+    'UPDATE users 
+        SET emailaddress = $1
+        WHERE id = $2'
+    );
+
+    pg_prepare(db_connect(), "find_password_by_email",
         'SELECT password
         FROM users
         WHERE emailaddress=$1'
     );
 
-    pg_prepare(db_connect(), "query_password_by_id",
+    pg_prepare(db_connect(), "find_password_by_id",
         'SELECT password
             FROM users
             WHERE id=$1'
@@ -42,20 +48,24 @@
 
     
 
+    function findUserID($emailAddress){
+        return pg_fetch_assoc(pg_execute(db_connect(), "find_id_by_email", [$emailAddress]));
+
+    }
 
     function changeEmailAddress($newEmailAddress, $userID){
-        return pg_execute(db_connect(), "change_email", array($newEmailAddress, $userID));
+        return pg_execute(db_connect(), "update_user_email", [$newEmailAddress, $userID]);
     }
 
     function loginAuthenticate($email, $plaintextPassword){
-        $results = pg_execute(db_connect(), "query_password_by_email", [$email]);
+        $results = pg_execute(db_connect(), "find_password_by_email", [$email]);
         $results = pg_fetch_assoc($results);
         
         return password_verify($plaintextPassword, $results['password']);
     }
 
     function verifyPassword($plaintextPassword, $userID){
-        $results = pg_fetch_assoc(pg_execute(db_connect(), "query_password_by_id", [$userID]));
+        $results = pg_fetch_assoc(pg_execute(db_connect(), "find_password_by_id", [$userID]));
         return password_verify($plaintextPassword, $results['password']);
     }
 

@@ -1,5 +1,5 @@
 <?php
-$title = "Password Reset";
+$title = "Email Change";
 include("./includes/header.php");
 
 
@@ -8,11 +8,10 @@ if(!isset($_SESSION["id"])){
 }
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $oldPassword = trim($_POST["old-password"]);
-    $newPassword = trim($_POST["new-password"]);
-    $confirmPassword = trim($_POST["confirmation-password"]);
+    $email = trim($_POST["new-email"]);
+    $confirmEmail = trim($_POST["confirmation-email"]);
 
-    if(validateNewPassword($oldPassword, $newPassword, $confirmPassword, $_SESSION["id"])){
+    if(validateNewEmail($email, $confirmEmail, $_SESSION["id"])){
         header("Location: sign-out.php");
     }
 }
@@ -30,10 +29,10 @@ if (isset($_SESSION["errorList"])){
 
 
 <form method="post">
-    <h1 class="h3 mb-3 font-weight-normal">Password Change</h1>
-    Old Password: <input type="password" name="old-password" placeholder="Old Password">
-    New Password: <input type="password" name="new-password" placeholder="New Password">
-    Confirmation Password: <input type="password" name="confirmation-password" placeholder="New Password">
+    <h1 class="h3 mb-3 font-weight-normal">New Email Address</h1>
+    Current Email: <input type="text" name="current-email" value="<?php echo($_SESSION["emailaddress"])?>" disabled>
+    New Email: <input type="email" name="new-email" placeholder="New Email Address">
+    Confirmation Email: <input type="email" name="confirmation-email" placeholder="New Email Address">
     <button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Apply</button>
 </form>
 
