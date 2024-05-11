@@ -9,14 +9,13 @@ if(isset($_SESSION["id"])){
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $emailAddress = trim($_POST["email-address"]);
-
-
     $foundUser = findUserID($emailAddress);
-    if($foundUser){
-        mailPasswordReset($foundUser['id'], $emailAddress);
-    }
 
-    header("Location: index.php");
+    if($foundUser){
+        if(preparePasswordReset($foundUser['id'], $emailAddress)){
+            header("Location: index.php");
+        }
+    }
 }
 
 if (isset($_SESSION["errorList"])){

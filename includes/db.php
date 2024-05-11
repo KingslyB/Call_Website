@@ -46,7 +46,34 @@
     WHERE id = $2'
     );
 
+    pg_prepare(db_connect(), "new_reset_attempt",
+    'INSERT INTO passwordresets(startdate, enddate, used, emailaddress) 
+        VALUES ($1, $2, $3, $4)'
+    );
+
+    pg_prepare(db_connect(), "find_reset_attempt" ,
+    'SELECT *
+    FROM passwordresets
+    WHERE emailaddress=$1'
+    );
+
     
+
+    function newResetWindow($emailAddress){
+        $result = (pg_execute(db_connect(),
+            "new_reset_attempt",
+            [
+                date("Y-m-d H:i:s"),
+                date("Y-m-d H:i:s"),
+                "false",
+                $emailAddress
+            ]));
+        return $result;
+    }
+
+    function findResetAttempt($emailAddress){
+        return pg_fetch_assoc(pg_execute(db_connect(), "find_reset_attempt", [$emailAddress]));
+    }
 
     function findUserID($emailAddress){
         return pg_fetch_assoc(pg_execute(db_connect(), "find_id_by_email", [$emailAddress]));

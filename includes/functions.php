@@ -1,5 +1,5 @@
 <?php
-
+require_once 'mail.php';
 
 function db_connect(){
     $CONNECTION = pg_connect("host=".DB_HOST.
@@ -160,19 +160,17 @@ function displayTableData($columnHead, $columnValue){
     }
 }
 
-function mailPasswordReset($userID, $emailAddress)
-{
-    //TODO: Need to get SMTP to work or find an alternative
-//    print_r(
-//        mail(
-//            $emailAddress,
-//            "Password Reset",
-//            wordwrap("Dead User", 70),
-//            array("from" => "NEED_EMAIL@gmail.com")
-//        )
-//    );
+function preparePasswordReset($userID, $emailAddress){
+    //TODO: Decide what details are sent to sendPasswordResetMail. May want an ID for each reset attempt
+    $details = "";
+    $newWindowExists = newResetWindow($emailAddress);
 
-
+    if($newWindowExists){
+        $details = findResetAttempt($emailAddress);
+        sendPasswordResetMail($emailAddress);
+        return true;
+    }
+    return false;
 }
 ?>
 
