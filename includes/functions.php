@@ -160,17 +160,22 @@ function displayTableData($columnHead, $columnValue){
     }
 }
 
-function preparePasswordReset($userID, $emailAddress){
-    //TODO: Decide what details are sent to sendPasswordResetMail. May want an ID for each reset attempt
-    $details = "";
+function preparePasswordReset($emailAddress){
     $newWindowExists = newResetWindow($emailAddress);
+
 
     if($newWindowExists){
         $details = findResetAttempt($emailAddress);
-        sendPasswordResetMail($emailAddress);
+        $resetUrl = SITE_URL.'Call%20Website/reset-password.php?email='.$details['emailaddress'].'&id='.$details['attemptid'];
+
+        sendPasswordResetMail($details['emailaddress'], $resetUrl );
         return true;
     }
     return false;
+}
+
+function validatePasswordResetPage($query){
+    return true;
 }
 ?>
 

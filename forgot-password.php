@@ -1,5 +1,5 @@
 <?php
-$title = "Password Reset";
+$title = "Forgot Password";
 include("./includes/header.php");
 
 
@@ -12,7 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $foundUser = findUserID($emailAddress);
 
     if($foundUser){
-        if(preparePasswordReset($foundUser['id'], $emailAddress)){
+        if(preparePasswordReset($emailAddress)){
             header("Location: index.php");
         }
     }

@@ -6,8 +6,9 @@
     require_once 'lib/PHPMailer-6.9.1/src/PHPMailer.php';
 
 
-    function sendPasswordResetMail($emailAddress)
+    function sendPasswordResetMail($recipientEmailAddress, $resetUrl)
     {
+        //TODO: Consider HTTP Headers
 
         $mail = new PHPMailer(true);
         try {
@@ -23,7 +24,7 @@
 
             //Recipients
             $mail->setFrom(MAIL_FROM_ADDRESS, 'Company');
-            $mail->addAddress($emailAddress, 'Recipient');     //Add a recipient
+            $mail->addAddress($recipientEmailAddress, 'Recipient');     //Add a recipient
             //$mail->addAddress('ellen@example.com');               //Name is optional
             //$mail->addReplyTo('info@example.com', 'Information');
             //$mail->addCC('cc@example.com');
@@ -35,7 +36,7 @@
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b> ';
+            $mail->Body    = 'Link to reset password: '.$resetUrl;
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients !';
 
             $mail->send();

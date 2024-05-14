@@ -46,11 +46,13 @@
     WHERE id = $2'
     );
 
+    //TODO: Change emailaddress to id
     pg_prepare(db_connect(), "new_reset_attempt",
     'INSERT INTO passwordresets(startdate, enddate, used, emailaddress) 
         VALUES ($1, $2, $3, $4)'
     );
 
+    //TODO: Change emailaddress to id and do a JOIN to get emailaddress, firstname, lastname
     pg_prepare(db_connect(), "find_reset_attempt" ,
     'SELECT *
     FROM passwordresets

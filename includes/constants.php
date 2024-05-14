@@ -1,6 +1,7 @@
 <?php
 $data = parse_ini_file(".env");
 
+define("SITE_URL", $data["ENV_SITE_URL"]);
 define("DB_HOST", $data["ENV_DB_HOST"]);
 define("DB_NAME", $data["ENV_DB_NAME"]);
 define("DB_ADMIN_LOGIN", $data["ENV_DB_ADMIN"]);
