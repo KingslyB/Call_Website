@@ -48,18 +48,27 @@
 
     //TODO: Change emailaddress to id
     pg_prepare(db_connect(), "new_reset_attempt",
-    'INSERT INTO passwordresets(startdate, enddate, used, emailaddress) 
-        VALUES ($1, $2, $3, $4)'
+    'INSERT INTO passwordresets(startdate, enddate, used, emailaddress, userid)
+    VALUES ($1,$2, $3, $4, 
+	   (SELECT users.id 
+		FROM users 
+		WHERE users.emailaddress = $5))'
     );
 
     //TODO: Change emailaddress to id and do a JOIN to get emailaddress, firstname, lastname
     pg_prepare(db_connect(), "find_reset_attempt" ,
-    'SELECT *
-    FROM passwordresets
-    WHERE emailaddress=$1'
+        'SELECT *
+        FROM passwordresets
+        WHERE attemptid=$1 AND emailaddress=$2'
     );
 
-    
+    pg_prepare(db_connect(), "find_latest_reset_attempt" ,
+    'SELECT *
+    FROM passwordresets
+    WHERE emailaddress=$1
+    ORDER BY passwordresets.attemptid DESC
+    LIMIT 1'
+    );
 
     function newResetWindow($emailAddress){
         $result = (pg_execute(db_connect(),
@@ -68,13 +77,18 @@
                 date("Y-m-d H:i:s"),
                 date("Y-m-d H:i:s"),
                 "false",
+                $emailAddress,
                 $emailAddress
             ]));
         return $result;
     }
 
-    function findResetAttempt($emailAddress){
-        return pg_fetch_assoc(pg_execute(db_connect(), "find_reset_attempt", [$emailAddress]));
+    function findLatestResetAttempt($emailAddress){
+        return pg_fetch_assoc(pg_execute(db_connect(), "find_latest_reset_attempt", [$emailAddress]));
+    }
+
+    function findResetAttempt($attemptId, $emailAddress){
+        return pg_fetch_assoc(pg_execute(db_connect(), "find_reset_attempt", [$attemptId, $emailAddress]));
     }
 
     function findUserID($emailAddress){
