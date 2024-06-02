@@ -23,7 +23,7 @@
     <a href="change-email.php">Reset Email</a>
 </h2>
 <h2>
-    <a href="change-password.php">Send Mail</a>
+    <a href="change-password.php">Change Password</a>
 </h2>
 
 <?php

@@ -2,17 +2,20 @@
 $title = "Password Reset";
 include("./includes/header.php");
 
-$details = findResetAttempt($_REQUEST['email']);
-
-if($_SERVER["REQUEST_METHOD"] == "POST") {
-    validatePasswordReset();
-}
+$details = findResetAttempt($_REQUEST['id'], $_REQUEST['email']);
 
 //TODO: Use try?
 if (!validatePasswordResetPage($_REQUEST)) {
     echo "<script>alert('Invalid Email');</script>";
     header("Location: index.php");
 }
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+    //validatePasswordReset();
+}
+
+
+
 
 
 //if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -37,6 +40,9 @@ if (!validatePasswordResetPage($_REQUEST)) {
 ?>
 
 <p>nothing here yet</p>
+<?php
+print_r($details)
+?>
 <!---->
 <!--<form method="post">-->
 <!--    <h1 class="h3 mb-3 font-weight-normal">Password Reset</h1>-->

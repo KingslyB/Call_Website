@@ -19,7 +19,7 @@ function attemptLogin($emailAddress, $password){
     return false;
 }
 
-function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userID){
+function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userSessionID){
     $_SESSION["errorList"] = array();
 
     if(strcmp($newPassword, $confirmPassword) != 0){
@@ -31,13 +31,13 @@ function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $user
     }
 
     if(count($_SESSION["errorList"]) == 0){
-        if(!verifyPassword($oldPassword, $userID)){
+        if(!verifyPassword($oldPassword, $userSessionID)){
             array_push($_SESSION["errorList"], "An error occurred while trying to change the password");
         }
     }
 
     if(count($_SESSION["errorList"]) == 0){
-        changePassword($newPassword, $userID);
+        changePassword($newPassword, $userSessionID);
         return true;
     }
 
@@ -163,10 +163,9 @@ function displayTableData($columnHead, $columnValue){
 function preparePasswordReset($emailAddress){
     $newWindowExists = newResetWindow($emailAddress);
 
-
     if($newWindowExists){
-        $details = findResetAttempt($emailAddress);
-        $resetUrl = SITE_URL.'Call%20Website/reset-password.php?email='.$details['emailaddress'].'&id='.$details['attemptid'];
+        $details = findLatestResetAttempt($emailAddress);
+        $resetUrl = SITE_URL.'/reset-password.php?email='.$details['emailaddress'].'&id='.$details['attemptid'];
 
         sendPasswordResetMail($details['emailaddress'], $resetUrl );
         return true;
