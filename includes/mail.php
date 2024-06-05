@@ -5,7 +5,6 @@
     require_once 'lib/PHPMailer-6.9.1/src/Exception.php';
     require_once 'lib/PHPMailer-6.9.1/src/PHPMailer.php';
 
-
     function sendPasswordResetMail($recipientEmailAddress, $resetUrl)
     {
         //TODO: Consider HTTP Headers

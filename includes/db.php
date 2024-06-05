@@ -49,10 +49,13 @@
     //TODO: Change emailaddress to id
     pg_prepare(db_connect(), "new_reset_attempt",
     'INSERT INTO passwordresets(startdate, enddate, used, emailaddress, userid)
-    VALUES ($1,$2, $3, $4, 
-	   (SELECT users.id 
-		FROM users 
-		WHERE users.emailaddress = $5))'
+    VALUES (CURRENT_TIMESTAMP(0),
+            CURRENT_TIMESTAMP(0) + \'900\',
+            $1,
+            $2, 
+	        (SELECT users.id 
+		    FROM users 
+		    WHERE users.emailaddress = $3))'
     );
 
     //TODO: Change emailaddress to id and do a JOIN to get emailaddress, firstname, lastname
@@ -74,8 +77,6 @@
         $result = (pg_execute(db_connect(),
             "new_reset_attempt",
             [
-                date("Y-m-d H:i:s"),
-                date("Y-m-d H:i:s"),
                 "false",
                 $emailAddress,
                 $emailAddress

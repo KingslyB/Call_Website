@@ -173,7 +173,17 @@ function preparePasswordReset($emailAddress){
     return false;
 }
 
-function validatePasswordResetPage($query){
+function validatePasswordResetPage($attemptId, $emailAddress){
+    $details = findResetAttempt($attemptId, $emailAddress);
+
+    if(!$details || count($details) == 0 ){
+        return false;
+    }
+
+    if(strtotime($details['startdate']) > strtotime(date('d-m-Y H:i:s')) ||
+        strtotime($details['enddate']) < strtotime(date('d-m-Y H:i:s'))){
+        return false;
+    }
     return true;
 }
 ?>
