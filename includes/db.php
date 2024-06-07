@@ -67,11 +67,27 @@
 
     pg_prepare(db_connect(), "find_latest_reset_attempt" ,
     'SELECT *
-    FROM passwordresets
-    WHERE emailaddress=$1
-    ORDER BY passwordresets.attemptid DESC
-    LIMIT 1'
+        FROM passwordresets
+        WHERE emailaddress=$1
+        ORDER BY passwordresets.attemptid DESC
+        LIMIT 1'
     );
+
+
+    pg_prepare(db_connect(), "set_password_reset_used",
+    'UPDATE passwordresets
+        SET used = \'t\'
+        WHERE passwordresets.attemptid = $1;'
+    );
+
+    pg_prepare(db_connect(), "use_password_reset",
+    'UPDATE users
+        SET password = $1
+        from passwordresets
+        WHERE passwordresets.attemptid = $2 AND passwordresets.userid = users.id;'
+    );
+
+
 
     function newResetWindow($emailAddress){
         $result = (pg_execute(db_connect(),
@@ -115,6 +131,23 @@
 
     function changePassword($newPassword, $userID){
         return pg_execute(db_connect(), "change_password", [password_hash($newPassword, PASSWORD_BCRYPT), $userID]);
+    }
+
+    function changePasswordUsingReset($newPassword, $resetAttemptInfo){
+        $checks = array();
+
+        array_push($checks,  pg_execute(db_connect(), "set_password_reset_used",
+            [$resetAttemptInfo['attemptid']]));
+
+        array_push($checks,  pg_execute(db_connect(), "use_password_reset",
+            [password_hash($newPassword, PASSWORD_BCRYPT), $resetAttemptInfo['attemptid']]));
+
+        foreach ($checks as $check){
+            if(!$check){
+                return false;
+            }
+        }
+        return true;
     }
 
     function registerNewUser($email, $plaintextPassword, $firstname, $lastname): bool

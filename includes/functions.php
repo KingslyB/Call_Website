@@ -184,7 +184,34 @@ function validatePasswordResetPage($attemptId, $emailAddress){
         strtotime($details['enddate']) < strtotime(date('d-m-Y H:i:s'))){
         return false;
     }
-    return true;
+    return $details;
+}
+
+function validatePasswordReset($newPassword, $confirmPassword, $resetAttemptInfo){
+    $_SESSION["errorList"] = array();
+
+    if(strlen($newPassword) < 6 || strlen($newPassword) > 70){
+        array_push($_SESSION["errorList"], "Password length must be between 6 and 70 characters long");
+    }
+
+    if(strcmp($newPassword, $confirmPassword) != 0){
+        array_push($_SESSION["errorList"], "The confirmation password does not match");
+    }
+
+    if(!is_array($resetAttemptInfo) || count($resetAttemptInfo) == 0){
+        array_push($_SESSION["errorList"], "An unknown error has occurred [01]");
+    }
+
+    if(count($_SESSION["errorList"]) != 0){
+        return false;
+    }
+
+
+    if(!changePasswordUsingReset($newPassword, $resetAttemptInfo)){
+        array_push($_SESSION["errorList"], "An unknown error has occurred [02]");
+        return false;
+    };
+    return false;
 }
 ?>
 

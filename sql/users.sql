@@ -34,7 +34,7 @@ INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastA
 VALUES(
     'TestOne@gmail.com',
     crypt('password', gen_salt('bf')),
-    'EampleOne',
+    'ExampleOne',
     'SalespersonOne',
     '2015-06-22 19:10:25',
     '2015-06-22 19:10:26',
@@ -47,7 +47,7 @@ INSERT INTO users(emailAddress, password, firstName, lastName, enrollDate, lastA
 VALUES(
     'TestTwo@gmail.com',
     crypt('password', gen_salt('bf')),
-    'EampleTwo',
+    'ExampleTwo',
     'SalespersonTwo',
     '2000-06-22 19:10:25',
     '2000-06-22 19:10:26',
