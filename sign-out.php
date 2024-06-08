@@ -3,6 +3,13 @@ $title = "Sign-Out";
 include "./includes/header.php";
 
 if(isset($_SESSION['id'])){
+    setcookie("a_cookie",
+        "",
+        ['expires' => time() - 1,
+            "path" => "/",
+            "domain" => "",
+            "secure" => true,
+            "httponly" => true]);
     endSession();
 }
 else{
@@ -18,4 +25,5 @@ else{
 
 <?php
 include "./includes/footer.php";
+
 ?>    

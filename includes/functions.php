@@ -12,11 +12,27 @@ function db_connect(){
 
 function attemptLogin($emailAddress, $password){ 
     if(loginAuthenticate($emailAddress, $password)){
+        endSession();
+
+        session_start();
+        ob_start();
+
         addSessionData(getSessionData($emailAddress));
+        generateAuthSessionCookie(true);
         return true;
     }
 
     return false;
+}
+
+function generateAuthSessionCookie($rememberMe){
+    setcookie("a_cookie",
+        (bin2hex(random_bytes(16))),
+        ['expires' => time() + 60 * 10,
+            "path" => "/",
+            "domain" => "",
+            "secure" => true,
+            "httponly" => true]);
 }
 
 function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userSessionID){
@@ -211,7 +227,7 @@ function validatePasswordReset($newPassword, $confirmPassword, $resetAttemptInfo
         array_push($_SESSION["errorList"], "An unknown error has occurred [02]");
         return false;
     };
-    return false;
+    return true;
 }
 ?>
 

@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
-<form method="post">
+<form method="POST">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <input type="text" name="sign-in-email" placeholder="Email">
     <input type="password" name="sign-in-password" placeholder="Password">
