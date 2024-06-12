@@ -13,7 +13,6 @@ function db_connect(){
 function attemptLogin($emailAddress, $password){ 
     if(loginAuthenticate($emailAddress, $password)){
         endSession();
-
         session_start();
         ob_start();
 
@@ -26,13 +25,17 @@ function attemptLogin($emailAddress, $password){
 }
 
 function generateAuthSessionCookie($rememberMe){
+    $token = bin2hex(random_bytes(16));
+
     setcookie("a_cookie",
-        (bin2hex(random_bytes(16))),
-        ['expires' => time() + 60 * 10,
+        ($token),
+        ['expires' => time() + 60 * 2,
             "path" => "/",
             "domain" => "",
             "secure" => true,
             "httponly" => true]);
+
+    storeToken($token, $_SESSION['id']);
 }
 
 function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userSessionID){

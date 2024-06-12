@@ -87,6 +87,14 @@
         WHERE passwordresets.attemptid = $2 AND passwordresets.userid = users.id;'
     );
 
+    pg_prepare(db_connect(), "update_user_token",
+    'INSERT INTO tokens(token, userid)
+        VALUES($1,$2)
+        ON CONFLICT (userid) DO UPDATE
+        SET token = $3
+        WHERE tokens.userid = $4;'
+    );
+
 
 
     function newResetWindow($emailAddress){
@@ -122,6 +130,10 @@
         $results = pg_fetch_assoc($results);
         
         return password_verify($plaintextPassword, $results['password']);
+    }
+
+    function storeToken($token, $userid){
+        return pg_execute(db_connect(), "update_user_token", [$token, $userid, $token, $userid]);
     }
 
     function verifyPassword($plaintextPassword, $userID){
