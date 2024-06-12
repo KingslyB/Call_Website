@@ -95,6 +95,13 @@
         WHERE tokens.userid = $4;'
     );
 
+    pg_prepare(db_connect(), "find_user_by_token",
+    'SELECT id, emailaddress, firstname, lastname, enrolldate, lastaccess, phoneext, type, isactive
+        FROM tokens
+        INNER JOIN users ON tokens.userid = users.id
+        WHERE tokens.token = $1;'
+    );
+
 
 
     function newResetWindow($emailAddress){
@@ -106,6 +113,10 @@
                 $emailAddress
             ]));
         return $result;
+    }
+
+    function AuthCheck($token){
+        return pg_fetch_assoc(pg_execute(db_connect(), "find_user_by_token", [$token]));
     }
 
     function findLatestResetAttempt($emailAddress){

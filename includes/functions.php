@@ -38,6 +38,17 @@ function generateAuthSessionCookie($rememberMe){
     storeToken($token, $_SESSION['id']);
 }
 
+function UpdateAuth(){
+    if(isset($_COOKIE["a_cookie"])){
+        $updatedInfo = AuthCheck($_COOKIE["a_cookie"]);
+
+        if(count($updatedInfo) > 0){
+            addSessionData($updatedInfo);
+            return true;
+        }
+    }
+}
+
 function validateNewPassword($oldPassword, $newPassword, $confirmPassword, $userSessionID){
     $_SESSION["errorList"] = array();
 

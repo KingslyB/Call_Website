@@ -6,9 +6,10 @@
         //require("./includes/forms.php");
         require("./includes/functions.php");
         require("./includes/db.php");
+        date_default_timezone_set('UTC');
         session_start();
         ob_start();
-        date_default_timezone_set('UTC');
+        UpdateAuth();
 
     ?>
     <meta charset="utf-8">

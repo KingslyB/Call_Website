@@ -10,7 +10,7 @@ $test =  date('d-m-Y H:i:s');
 $test = strtotime($test);
 //setcookie("testCookie", openssl_encrypt("test", "aes128", "abc", 0, "16chars000000000"), time() + (1000), "/");
 //print_r(openssl_decrypt($_COOKIE["testCookie"], "aes128", "abc", 0, "16chars000000000"));
-
+print_r($_SESSION);
 if($test == false){
     echo("<br />". "failure");
 
