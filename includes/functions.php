@@ -10,18 +10,30 @@ function db_connect(){
     return $CONNECTION;
 }
 
-function attemptLogin($emailAddress, $password){ 
-    if(loginAuthenticate($emailAddress, $password)){
-        endSession();
-        session_start();
-        ob_start();
 
-        addSessionData(getSessionData($emailAddress));
-        generateAuthSessionCookie(true);
-        return true;
+function attemptLogin($emailAddress, $password){
+    $_SESSION["errorList"] = array();
+
+    if(!loginAuthenticate($emailAddress, $password)){
+        array_push($_SESSION["errorList"], "Invalid email or password");
+        return false;
     }
+    clearSession();
+    addSessionData(getSessionData($emailAddress));
+    generateAuthSessionCookie(true);
+    return true;
+}
 
-    return false;
+function logout(){
+    setcookie("a_cookie",
+        "",
+        ['expires' => time() - 1,
+            "path" => "/",
+            "domain" => "",
+            "secure" => true,
+            "httponly" => true]);
+
+    clearSession();
 }
 
 function generateAuthSessionCookie($rememberMe){
@@ -29,7 +41,7 @@ function generateAuthSessionCookie($rememberMe){
 
     setcookie("a_cookie",
         ($token),
-        ['expires' => time() + 60 * 2,
+        ['expires' => time() + 60 * 60 * 24 * 7,
             "path" => "/",
             "domain" => "",
             "secure" => true,
@@ -96,10 +108,13 @@ function addSessionData($data){
     return true;
 }
 
-function endSession(){
+function clearSession(){
     session_unset();
     session_destroy();
     session_reset();
+
+    session_start();
+    ob_start();
 }
 
 function validateNewEmail($newEmailAddress, $confirmEmail, $userID) :bool
@@ -191,9 +206,9 @@ function displayTableData($columnHead, $columnValue){
 }
 
 function preparePasswordReset($emailAddress){
-    $newWindowExists = newResetWindow($emailAddress);
+    $newResetExists = newResetAttempt($emailAddress);
 
-    if($newWindowExists){
+    if($newResetExists){
         $details = findLatestResetAttempt($emailAddress);
         $resetUrl = SITE_URL.'/reset-password.php?email='.$details['emailaddress'].'&id='.$details['attemptid'];
 
@@ -242,6 +257,17 @@ function validatePasswordReset($newPassword, $confirmPassword, $resetAttemptInfo
         return false;
     };
     return true;
+}
+
+function displayErrorList(){
+    if (isset($_SESSION["errorList"])){
+
+        echo('<div class="error-box visible-border"> <ul>');
+        foreach($_SESSION["errorList"] as $error){
+            echo('<li>'.$error.'</li>');
+        }
+        echo('</ul></div>');
+    }
 }
 ?>
 

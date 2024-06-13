@@ -13,25 +13,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(attemptRegistration($email, $password, $confirmPassword, $firstName, $lastName)){
         header("Location: index.php");
     }
-    else{
-    }
 
 }
 ?>
 
-
-    <?php
-    if (isset($_SESSION["errorList"])){
-
-        echo('<div class="error-box visible-border"> <ul>');
-        foreach($_SESSION["errorList"] as $error){
-            echo('<li>'.$error.'</li>');
-        }
-        echo('</ul></div>');
-    }
-    ?>
-
-
+<?php displayErrorList(); ?>
 
 <form method="post">
     <h1 class="h3 mb-3 font-weight-normal">Registration Form</h1>

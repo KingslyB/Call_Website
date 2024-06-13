@@ -104,7 +104,7 @@
 
 
 
-    function newResetWindow($emailAddress){
+    function newResetAttempt($emailAddress){
         $result = (pg_execute(db_connect(),
             "new_reset_attempt",
             [
@@ -139,8 +139,12 @@
     function loginAuthenticate($email, $plaintextPassword){
         $results = pg_execute(db_connect(), "find_password_by_email", [$email]);
         $results = pg_fetch_assoc($results);
-        
+
+        if(!$results){
+            return false;
+        }
         return password_verify($plaintextPassword, $results['password']);
+
     }
 
     function storeToken($token, $userid){

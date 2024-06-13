@@ -13,6 +13,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
 ?>
 
+<?php displayErrorList(); ?>
+
 <form method="POST">
     <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
     <input type="text" name="sign-in-email" placeholder="Email">
@@ -24,3 +26,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <a href="forgot-password.php"><button class="btn btn-lg btn-danger btn-block">Forgot Password</button></a>
 
 <a href="register.php"><button class="btn btn-lg btn-warning btn-block">Register</button></a>
+
+<?php
+unset($_SESSION["errorList"]);
+include("./includes/footer.php");
+?>

@@ -18,17 +18,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 }
 
-if (isset($_SESSION["errorList"])){
-    echo('<div class="error-box visible-border"> <ul>');
-    foreach($_SESSION["errorList"] as $error){
-        echo('<li>'.$error.'</li>');
-    }
-    echo('</ul></div>');
-    unset($_SESSION["errorList"]);
-}
 ?>
 
 
+<?php displayErrorList(); ?>
 
 <form method="post">
     <h1 class="h3 mb-3 font-weight-normal">Password Reset</h1>
