@@ -227,7 +227,12 @@ function attemptRegistration(string $email, string $password, string $confirmPas
     return false;
 }
 
-function displayTable($queryResults){
+/**
+ * @param $queryResults
+ * @return void
+ * echoes a table based on the array from $queryResults
+ */
+function displayTable(array $queryResults){
 
     $keys = array_keys($queryResults[0]);
     echo("<table>");
@@ -250,7 +255,14 @@ function displayTable($queryResults){
     echo("</table>");
 }
 
-function displayTableData($columnHead, $columnValue){
+/**
+ * @param string $columnHead The name of the field that the value belongs to
+ * @param $columnValue
+ * @return void
+ * Simply echoes out the value for a specific column in a record
+ * The inclusion of the $columnHead (the field) param allows for this function to do expressions based on the field if needed.
+ */
+function displayTableData(string $columnHead, $columnValue){
 
     switch ($columnHead) {
         case PHONENUM:
@@ -263,7 +275,10 @@ function displayTableData($columnHead, $columnValue){
     }
 }
 
-
+/**
+ * @param $emailAddress
+ * @return bool
+ */
 function preparePasswordReset($emailAddress){
     $newResetExists = newResetAttempt($emailAddress);
 
@@ -277,7 +292,12 @@ function preparePasswordReset($emailAddress){
     return false;
 }
 
-function validatePasswordResetPage($attemptId, $emailAddress){
+/**
+ * @param int $attemptId
+ * @param string $emailAddress
+ * @return array|false
+ */
+function validatePasswordResetPage(int $attemptId, string $emailAddress){
     $details = findResetAttempt($attemptId, $emailAddress);
 
     if(!$details || count($details) == 0 ){
@@ -291,7 +311,14 @@ function validatePasswordResetPage($attemptId, $emailAddress){
     return $details;
 }
 
-function validatePasswordReset($newPassword, $confirmPassword, $resetAttemptInfo){
+
+/**
+ * @param string $newPassword New password in plaintext.
+ * @param string $confirmPassword New password in plaintext for confirmation of password.
+ * @param array $resetAttemptInfo reset attempt info containing the reset attempt id and matching email address.
+ * @return bool
+ */
+function validatePasswordReset(string $newPassword, string $confirmPassword, array $resetAttemptInfo): bool{
     $_SESSION["errorList"] = array();
 
     if(strlen($newPassword) < 6 || strlen($newPassword) > 70){
@@ -318,6 +345,12 @@ function validatePasswordReset($newPassword, $confirmPassword, $resetAttemptInfo
     return true;
 }
 
+//TODO: displayErrorList can be made MUCH more "flexible"
+/**
+ * @return void
+ * Creates and displays a box with the values currently stored inside the $_SESSION["errorList"] variable.
+ * several functions will add errors to $_SESSION["errorList"].
+ */
 function displayErrorList(){
     if (isset($_SESSION["errorList"])){
 
